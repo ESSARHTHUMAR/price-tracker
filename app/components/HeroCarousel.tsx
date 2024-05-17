@@ -33,7 +33,7 @@ const HeroCarousel = () => {
         width={175}
         height={175}
         alt="arrow"
-        className="absolute -left-[15%] bottom-0 max-xl:hidden"
+        className="absolute -left-[15%] bottom-[5%] max-xl:hidden"
       />
     </div>
   );
