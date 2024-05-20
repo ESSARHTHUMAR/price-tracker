@@ -55,6 +55,6 @@ export async function GET(request: Request) {
         message: 'Ok', data:updatedProducts,
     })
   } catch (error) {
-    throw new Error(`Failed to get all products: ${error.message}`);
+    throw new Error("Failed to get all products");
   }
 }
