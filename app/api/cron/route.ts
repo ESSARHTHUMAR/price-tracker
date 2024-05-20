@@ -9,15 +9,15 @@ import { NextResponse } from "next/server";
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     connectToDB();
     const products = await Product.find({});
-    if (!products) throw new Error("No Products Found!");
+    if (!products) throw new Error("No Products Fetched!");
     const updatedProducts = await Promise.all(
       products.map(async (currentProduct) => {
-        const scrapedProduct = await scrapeAmazonItem(currentProduct?.url);
-        if (!scrapedProduct) throw new Error("No Product Found!");
+        const scrapedProduct = await scrapeAmazonItem(currentProduct.url);
+        if (!scrapedProduct) return;
         const updatedPriceHistory = [
           ...currentProduct.priceHistory,
           { price: scrapedProduct.currentPrice },
@@ -55,6 +55,6 @@ export async function GET() {
         message: 'Ok', data:updatedProducts,
     })
   } catch (error) {
-    console.log(error);
+    throw new Error(`Failed to get all products: ${error.message}`);
   }
 }
